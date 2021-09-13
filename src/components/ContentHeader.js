@@ -4,19 +4,20 @@ import { Divider, Typography } from "antd"
 const { Title, Text } = Typography
 
 
-const ContentHeader = ({title, text}) => {
+const ContentHeader = ({title, text, divider = true}) => {
   return (
     <>
       <Title level={2} >{title}</Title>
-      <Text>{text}</Text>
-      <Divider />
+      {text && <Text>{text}</Text>}
+      {divider && <Divider />}
     </>
   )
 }
 
 ContentHeader.propTypes = {
   title: PropTypes.string.isRequired,
-  text: PropTypes.string
+  text: PropTypes.string,
+  divider: PropTypes.bool,
 }
 
 export default ContentHeader
