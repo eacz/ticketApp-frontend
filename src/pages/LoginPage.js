@@ -1,6 +1,7 @@
 import { SaveOutlined } from '@ant-design/icons'
 import { Form, Input, Button, InputNumber } from 'antd'
 import ContentHeader from '../components/ContentHeader'
+import useHideMenu from '../hooks/useHideMenu'
 
 
 const layout = {
@@ -13,6 +14,8 @@ const tailLayout = {
 }
 
 const LoginPage = ({history}) => {
+
+  useHideMenu(false)
   
   const onFinish = (values) => {
     console.log('Success:', values)

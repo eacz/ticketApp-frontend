@@ -1,5 +1,6 @@
 import { Row, Col, Typography, List, Card, Tag, Divider } from "antd"
 import ContentHeader from "../components/ContentHeader";
+import useHideMenu from "../hooks/useHideMenu";
 
 const { Title, Text } = Typography
 
@@ -43,6 +44,9 @@ const data = [
 ];
 
 const QueuePage = () => {
+
+  useHideMenu(true)
+
   return (
     <>
       <ContentHeader 

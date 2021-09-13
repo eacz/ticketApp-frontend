@@ -1,10 +1,14 @@
 import { CloseCircleOutlined, RightOutlined } from '@ant-design/icons'
 import { Row, Col, Button, Divider, Typography } from 'antd'
 import ContentHeader from '../components/ContentHeader'
+import useHideMenu from '../hooks/useHideMenu'
 
 const { Text } = Typography
 
 const DeskPage = () => {
+
+  useHideMenu(false)
+
   const logout = () => {
     console.log('logout')
   }
