@@ -1,27 +1,35 @@
+import { useState } from 'react'
+import { Redirect } from 'react-router'
 import { CloseCircleOutlined, RightOutlined } from '@ant-design/icons'
 import { Row, Col, Button, Divider, Typography } from 'antd'
 import ContentHeader from '../components/ContentHeader'
+import getUserStorage, { clearUserStorage } from '../helpers/getUserStorage'
 import useHideMenu from '../hooks/useHideMenu'
 
 const { Text } = Typography
 
-const DeskPage = () => {
-
+const DeskPage = ({history}) => {
+  const [ user ] = useState(getUserStorage())
   useHideMenu(false)
 
   const logout = () => {
-    console.log('logout')
+    clearUserStorage()
+    history.replace('/login')
   }
 
   const nextTicket = () => {
     console.log('Next Ticket');
   }
 
+  if(!user.agent || !user.desk){
+    return <Redirect to="/login" />
+  }
+
   return (
     <>
       <Row>
         <Col span={20}>
-          <ContentHeader title='Esteban' text="You're working on desk 5" />
+          <ContentHeader title={user.agent} text={`You're working on desk ${user.desk}`} />
         </Col>
         <Col span={4} align='right'>
           <Button shape='round' type='danger' onClick={logout}>

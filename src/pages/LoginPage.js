@@ -1,6 +1,9 @@
+import { useState } from 'react'
+import { Redirect } from 'react-router'
 import { SaveOutlined } from '@ant-design/icons'
 import { Form, Input, Button, InputNumber } from 'antd'
 import ContentHeader from '../components/ContentHeader'
+import getUserStorage from '../helpers/getUserStorage'
 import useHideMenu from '../hooks/useHideMenu'
 
 
@@ -14,17 +17,24 @@ const tailLayout = {
 }
 
 const LoginPage = ({history}) => {
+  const [user, ] = useState(getUserStorage())
 
   useHideMenu(false)
   
-  const onFinish = (values) => {
-    console.log('Success:', values)
+  const onFinish = ({agent, desk}) => {
+    localStorage.setItem('agent', agent)
+    localStorage.setItem('desk', desk)
     history.push('/desk')
   }
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo)
   }
+
+  if(user.agent && user.desk){
+    return <Redirect to="/desk" />
+  }
+
   return (
     <>
       <ContentHeader 
