@@ -1,13 +1,24 @@
+import SocketProvider from "./context/SocketContext"
 import UiProvider from "./context/UiContext"
 import RouterPage from "./pages/RouterPage"
 
 const TicketApp = () => {
   return (
     <>
-      <UiProvider>
+      <AppState>
         <RouterPage />
-      </UiProvider>
+      </AppState>
     </>
+  )
+}
+
+const AppState = ({children}) => {
+  return (
+    <SocketProvider>
+      <UiProvider>
+        {children}
+      </UiProvider>
+    </SocketProvider>
   )
 }
 
