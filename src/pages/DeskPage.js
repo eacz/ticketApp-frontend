@@ -1,16 +1,18 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Redirect } from 'react-router'
 import { CloseCircleOutlined, RightOutlined } from '@ant-design/icons'
-import { Row, Col, Button, Divider, Typography } from 'antd'
+import { Row, Col, Button, Divider } from 'antd'
 import ContentHeader from '../components/ContentHeader'
 import getUserStorage, { clearUserStorage } from '../helpers/getUserStorage'
 import useHideMenu from '../hooks/useHideMenu'
-
-const { Text } = Typography
+import { SocketContext } from '../context/SocketContext'
+import AttendingTicket from '../components/AttendingTicket'
 
 const DeskPage = ({history}) => {
   const [ user ] = useState(getUserStorage())
   useHideMenu(false)
+  const [ticket, setTicket] = useState(null)
+  const { socket } = useContext(SocketContext)
 
   const logout = () => {
     clearUserStorage()
@@ -18,7 +20,9 @@ const DeskPage = ({history}) => {
   }
 
   const nextTicket = () => {
-    console.log('Next Ticket');
+    socket.emit('next-ticket-to-work', user, (ticket) => {
+      setTicket(ticket);
+    })
   }
 
   if(!user.agent || !user.desk){
@@ -40,13 +44,11 @@ const DeskPage = ({history}) => {
       </Row>
 
       <Divider />
-
-      <Row>
-        <Col>
-          <Text>you are attending the number:</Text>
-          <Text style={{fontSize: 30}} type="danger"> 23 </Text>
-        </Col>
-      </Row>
+      {
+        ticket &&
+        <AttendingTicket ticket={ticket} />
+      }
+      
       <Row>
         <Col offset={18} span={6} align="right">
           <Button
@@ -57,7 +59,6 @@ const DeskPage = ({history}) => {
           </Button>
         </Col>
       </Row>
-
     </>
   )
 }
