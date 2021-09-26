@@ -5,6 +5,7 @@ import { SocketContext } from "../context/SocketContext";
 import useHideMenu from "../hooks/useHideMenu";
 import HistoryTicketCard from "../components/HistoryTicket";
 import ActualTicketCard from "../components/ActualTicketCard";
+import getLastTickets from "../helpers/getLastTickets";
 
 
 const QueuePage = () => {
@@ -22,6 +23,10 @@ const QueuePage = () => {
     }
   }, [socket])
 
+  useEffect(() => {
+    getLastTickets()
+      .then(lastTickets => setTickets((lastTickets)))
+  }, [])
 
   return (
     <>
